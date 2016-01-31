@@ -180,9 +180,16 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RSy-fd-sYw">
+                                <rect key="frame" x="6" y="480" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="RSy-fd-sYw" secondAttribute="height" multiplier="1:1" id="2V5-Hs-1RU"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="RSy-fd-sYw" firstAttribute="leading" secondItem="1D8-pO-cHX" secondAttribute="leading" constant="6" id="3oK-rx-8KT"/>
                             <constraint firstAttribute="trailing" secondItem="Zpy-Xj-ZMc" secondAttribute="trailing" constant="5" id="5sj-ui-fkW"/>
                             <constraint firstItem="5CN-83-OAg" firstAttribute="top" secondItem="1Gy-kP-ouH" secondAttribute="bottom" constant="8" id="7VO-F3-qDG"/>
                             <constraint firstItem="ORe-8L-a2B" firstAttribute="top" secondItem="Tns-Vq-xtp" secondAttribute="bottom" constant="12" id="9xU-Jk-5UA"/>
@@ -192,8 +199,10 @@
                             <constraint firstAttribute="trailing" secondItem="ORe-8L-a2B" secondAttribute="trailing" constant="5" id="Xbj-cI-jNy"/>
                             <constraint firstItem="zq8-4u-M8V" firstAttribute="top" secondItem="Tns-Vq-xtp" secondAttribute="bottom" constant="8" id="bbD-ze-4Ll"/>
                             <constraint firstItem="Tns-Vq-xtp" firstAttribute="leading" secondItem="1D8-pO-cHX" secondAttribute="leading" id="fbI-tV-knq"/>
+                            <constraint firstItem="RSy-fd-sYw" firstAttribute="top" secondItem="5CN-83-OAg" secondAttribute="bottom" constant="12" id="gde-Wg-ybg"/>
                             <constraint firstItem="1Gy-kP-ouH" firstAttribute="top" secondItem="zq8-4u-M8V" secondAttribute="bottom" constant="7.5" id="lOM-Zy-55p"/>
                             <constraint firstItem="ORe-8L-a2B" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zq8-4u-M8V" secondAttribute="trailing" constant="20" id="m7Q-ze-TAg"/>
+                            <constraint firstItem="w2W-cL-aex" firstAttribute="top" relation="greaterThanOrEqual" secondItem="RSy-fd-sYw" secondAttribute="bottom" constant="8" id="niD-Dv-M2i"/>
                             <constraint firstItem="1Gy-kP-ouH" firstAttribute="leading" secondItem="1D8-pO-cHX" secondAttribute="leading" constant="6" id="rBw-uU-i3p"/>
                             <constraint firstItem="Zpy-Xj-ZMc" firstAttribute="top" secondItem="ORe-8L-a2B" secondAttribute="bottom" constant="13" id="t31-mA-mQr"/>
                         </constraints>
@@ -203,6 +212,7 @@
                     <connections>
                         <outlet property="addressLabel" destination="5CN-83-OAg" id="vuR-VT-Kbu"/>
                         <outlet property="descriptionLabel" destination="1Gy-kP-ouH" id="W5u-OK-Ywd"/>
+                        <outlet property="foodImageView" destination="RSy-fd-sYw" id="caF-cp-yyI"/>
                         <outlet property="mapView" destination="Tns-Vq-xtp" id="4S4-95-AGs"/>
                         <outlet property="nameLabel" destination="zq8-4u-M8V" id="v2p-FH-Cpx"/>
                         <outlet property="ratingsImageView" destination="ORe-8L-a2B" id="Fvi-kK-tjv"/>

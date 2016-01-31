@@ -18,13 +18,16 @@ class DetailBusinessViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var reviewCountLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var foodImageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
     var business: Business!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        foodImageView.setImageWithURL(business.imageURL!)
+        foodImageView.layer.cornerRadius = 3
+        foodImageView.clipsToBounds = true;
         nameLabel.text = business.name
         nameLabel.sizeToFit()
         addressLabel.text = business.address
