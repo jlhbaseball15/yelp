@@ -2,38 +2,54 @@
 //  BusinessesViewController.swift
 //  Yelp
 //
-//  Created by Timothy Lee on 4/23/15.
-//  Copyright (c) 2015 Timothy Lee. All rights reserved.
+//  Created by John Henning
+//  Copyright (c) 2016 John Henning. All rights reserved.
 //
 
 import UIKit
 
-class BusinessesViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+class BusinessesViewController: UIViewController,UITableViewDataSource,UITableViewDelegate, UISearchBarDelegate,UIScrollViewDelegate {
     
     
-
     var businesses: [Business]!
-    
+    var filteredData: [Business]!
+    var searchBar: UISearchBar!
+    @IBOutlet weak var mainNavigationItem: UINavigationItem!
     @IBOutlet weak var tableView: UITableView!
-    
-    
+    var searchActive : Bool = false
+    var tap : UITapGestureRecognizer!
+    var isMoreDataLoading = false
+    var refreshControl: UIRefreshControl!
+    var lastSearched: String!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.delegate = self;
         tableView.dataSource = self;
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
         
-        Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
-            self.businesses = businesses
-            self.tableView.reloadData()
-            for business in businesses {
-                print(business.name!)
-                print(business.address!)
-            }
-        })
-
+        searchBar = UISearchBar()
+        searchBar.sizeToFit()
+        navigationItem.titleView = searchBar
+        searchBar.delegate = self;
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let storedSearch = defaults.objectForKey("storedSearch") as? String {
+            lastSearched = storedSearch
+        }
+        else {
+            lastSearched = "Popular"
+        }
+        
+        callYelpAPI(lastSearched)
+        
+        searchBar.text = lastSearched
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
+        
 /* Example of Yelp search with more search options specified
         Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
             self.businesses = businesses
@@ -70,15 +86,93 @@ class BusinessesViewController: UIViewController,UITableViewDataSource,UITableVi
         }
     }
     
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar){
+        self.tap = UITapGestureRecognizer(target: self, action: "endEditing")
+        view.addGestureRecognizer(tap)
+        
     }
-    */
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar){
+        view.removeGestureRecognizer(tap)
+    }
+    
+    
+    func endEditing(){
+        searchBar.resignFirstResponder()
+    }
+    
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
+    
+    func onRefresh() {
+        delay(2, closure: {
+            self.refreshControl.endRefreshing()
+        })
+        
+        callYelpAPI(lastSearched)
+        
+        self.refreshControl?.endRefreshing()
+    }
+    
+    func callYelpAPI(input: String) {
+        lastSearched = input
+        Business.searchWithTerm(input, completion: { (businesses: [Business]!, error: NSError!) -> Void in
+            self.businesses = businesses
+            self.filteredData = businesses
+            self.tableView.reloadData()
+        })
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(input, forKey: "storedSearch")
+        defaults.synchronize()
+        
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        callYelpAPI(searchBar.text!)
+        tableView.reloadData()
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        filteredData = businesses
+        self.tableView.reloadData()
+    }
+    
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.dragging) {
+                isMoreDataLoading = true
+                
+                // ... Code to load more results ...
+                
+            }
+        }
+    }
+    
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPathForCell(cell)
+        let business = filteredData![(indexPath?.row)!]
+        let detailBusinessViewController = segue.destinationViewController as! DetailBusinessViewController
+        detailBusinessViewController.business = business
+    }
 
 }

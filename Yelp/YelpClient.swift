@@ -52,6 +52,7 @@ class YelpClient: BDBOAuth1RequestOperationManager {
     }
     
     func searchWithTerm(term: String, completion: ([Business]!, NSError!) -> Void) -> AFHTTPRequestOperation {
+        print(searchWithTerm(term, sort: nil, categories: nil, deals: nil, completion: completion))
         return searchWithTerm(term, sort: nil, categories: nil, deals: nil, completion: completion)
     }
     
