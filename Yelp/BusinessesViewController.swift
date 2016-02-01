@@ -86,6 +86,9 @@ class BusinessesViewController: UIViewController,UITableViewDataSource,UITableVi
         }
     }
     
+    
+    
+    
     func searchBarTextDidBeginEditing(searchBar: UISearchBar){
         self.tap = UITapGestureRecognizer(target: self, action: "endEditing")
         view.addGestureRecognizer(tap)
