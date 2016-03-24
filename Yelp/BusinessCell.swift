@@ -5,6 +5,8 @@
 //  Created by John Henning on 1/26/16.
 //  Copyright © 2016 Timothy Lee. All rights reserved.
 //
+// swiftlint:disable line_length
+// swiftlint:disable trailing_whitespace
 
 import UIKit
 
@@ -35,7 +37,7 @@ class BusinessCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         thumbImageView.layer.cornerRadius = 3
-        thumbImageView.clipsToBounds = true;
+        thumbImageView.clipsToBounds = true
         nameLabel.preferredMaxLayoutWidth = nameLabel.frame.size.width
     }
     

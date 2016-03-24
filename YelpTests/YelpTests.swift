@@ -5,7 +5,8 @@
 //  Created by Timothy Lee on 9/19/14.
 //  Copyright (c) 2014 Timothy Lee. All rights reserved.
 //
-
+// swiftlint:disable line_length
+// swiftlint:disable trailing_whitespace
 import UIKit
 import XCTest
 

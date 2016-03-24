@@ -5,17 +5,16 @@
 //  Created by John Henning on 1/31/16.
 //  Copyright © 2016 Timothy Lee. All rights reserved.
 //
-
+// swiftlint:disable line_length
+// swiftlint:disable trailing_whitespace
 import UIKit
 import MapKit
 
 class DetailBusinessViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
-    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var ratingsImageView: UIImageView!
-    
     @IBOutlet weak var reviewCountLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var foodImageView: UIImageView!
@@ -27,7 +26,7 @@ class DetailBusinessViewController: UIViewController, UIScrollViewDelegate {
         
         foodImageView.setImageWithURL(business.imageURL!)
         foodImageView.layer.cornerRadius = 3
-        foodImageView.clipsToBounds = true;
+        foodImageView.clipsToBounds = true
         nameLabel.text = business.name
         nameLabel.sizeToFit()
         addressLabel.text = business.address
@@ -36,13 +35,8 @@ class DetailBusinessViewController: UIViewController, UIScrollViewDelegate {
         descriptionLabel.sizeToFit()
         
         reviewCountLabel.text = "\(business.reviewCount!) Reviews"
-        
-        
         ratingsImageView.setImageWithURL(business.ratingImageURL!)
-        
         self.addByAddress(business)
-        
-        
         // Do any additional setup after loading the view.
     }
 
@@ -50,7 +44,6 @@ class DetailBusinessViewController: UIViewController, UIScrollViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     
     func addByAddress(business: Business) {
         let geocoder = CLGeocoder()
@@ -61,7 +54,6 @@ class DetailBusinessViewController: UIViewController, UIScrollViewDelegate {
             }
         })
     }
-    
     
     func addAnnotationAtCoordinate(name: String, place: MKPlacemark) {
         let placeLat = place.coordinate.latitude

@@ -5,6 +5,9 @@
 //  Created by Timothy Lee on 9/19/14.
 //  Copyright (c) 2014 Timothy Lee. All rights reserved.
 //
+// swiftlint:disable line_length
+// swiftlint:disable trailing_whitespace
+
 
 import UIKit
 
@@ -25,10 +28,10 @@ class YelpClient: BDBOAuth1RequestOperationManager {
     var accessToken: String!
     var accessSecret: String!
     
-    class var sharedInstance : YelpClient {
+    class var sharedInstance: YelpClient {
         struct Static {
-            static var token : dispatch_once_t = 0
-            static var instance : YelpClient? = nil
+            static var token: dispatch_once_t = 0
+            static var instance: YelpClient? = nil
         }
         
         dispatch_once(&Static.token) {
@@ -45,7 +48,7 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         self.accessToken = accessToken
         self.accessSecret = accessSecret
         let baseUrl = NSURL(string: "https://api.yelp.com/v2/")
-        super.init(baseURL: baseUrl, consumerKey: key, consumerSecret: secret);
+        super.init(baseURL: baseUrl, consumerKey: key, consumerSecret: secret)
         
         let token = BDBOAuth1Credential(token: accessToken, secret: accessSecret, expiration: nil)
         self.requestSerializer.saveAccessToken(token)

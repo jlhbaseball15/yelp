@@ -5,7 +5,9 @@
 //  Created by Timothy Lee on 4/23/15.
 //  Copyright (c) 2015 Timothy Lee. All rights reserved.
 //
-
+// swiftlint:disable trailing_whitespace
+// swiftlint:disable line_length
+// swiftlint:disable function_body_length
 import UIKit
 
 class Business: NSObject {
@@ -32,7 +34,6 @@ class Business: NSObject {
         } else {
             imageURL = nil
         }
-        
         let location = dictionary["location"] as? NSDictionary
         
         
@@ -41,11 +42,11 @@ class Business: NSObject {
         var latitude = 0.0
         var address = ""
         if location != nil {
-            longitude = location!["coordinate"]!["longitude"] as! Double
-            latitude = location!["coordinate"]!["latitude"] as! Double
+            longitude = (location!["coordinate"]!["longitude"] as? Double)!
+            latitude = (location!["coordinate"]!["latitude"] as? Double)!
             let addressArray = location!["address"] as? NSArray
             if addressArray != nil && addressArray!.count > 0 {
-                address = addressArray![0] as! String
+                address = (addressArray![0] as? String)!
             }
             
             let neighborhoods = location!["neighborhoods"] as? NSArray
@@ -53,7 +54,7 @@ class Business: NSObject {
                 if !address.isEmpty {
                     address += ", "
                 }
-                address += neighborhoods![0] as! String
+                address += (neighborhoods![0] as? String)!
             }
         }
         self.address = address

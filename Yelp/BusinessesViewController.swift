@@ -5,10 +5,11 @@
 //  Created by John Henning
 //  Copyright (c) 2016 John Henning. All rights reserved.
 //
-
+// swiftlint:disable trailing_whitespace
+// swiftlint:disable line_length
 import UIKit
 
-class BusinessesViewController: UIViewController,UITableViewDataSource,UITableViewDelegate, UISearchBarDelegate,UIScrollViewDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UIScrollViewDelegate {
     
     
     var businesses: [Business]!
@@ -16,29 +17,28 @@ class BusinessesViewController: UIViewController,UITableViewDataSource,UITableVi
     var searchBar: UISearchBar!
     @IBOutlet weak var mainNavigationItem: UINavigationItem!
     @IBOutlet weak var tableView: UITableView!
-    var searchActive : Bool = false
-    var tap : UITapGestureRecognizer!
+    var searchActive: Bool = false
+    var tap: UITapGestureRecognizer!
     var isMoreDataLoading = false
     var refreshControl: UIRefreshControl!
     var lastSearched: String!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.delegate = self;
-        tableView.dataSource = self;
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
         
         searchBar = UISearchBar()
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
-        searchBar.delegate = self;
+        searchBar.delegate = self
         
         let defaults = NSUserDefaults.standardUserDefaults()
         if let storedSearch = defaults.objectForKey("storedSearch") as? String {
             lastSearched = storedSearch
-        }
-        else {
+        } else {
             lastSearched = "Popular"
         }
         
@@ -69,19 +69,18 @@ class BusinessesViewController: UIViewController,UITableViewDataSource,UITableVi
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! BusinessCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as?BusinessCell
         
-        cell.business = businesses[indexPath.row]
+        cell!.business = businesses[indexPath.row]
         
-        return cell
+        return cell!
         
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if businesses != nil {
             return businesses!.count
-        }
-        else{
+        } else {
             return 0
         }
     }
@@ -89,22 +88,22 @@ class BusinessesViewController: UIViewController,UITableViewDataSource,UITableVi
     
     
     
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar){
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         self.tap = UITapGestureRecognizer(target: self, action: "endEditing")
         view.addGestureRecognizer(tap)
         
     }
     
-    func searchBarTextDidEndEditing(searchBar: UISearchBar){
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
         view.removeGestureRecognizer(tap)
     }
     
     
-    func endEditing(){
+    func endEditing() {
         searchBar.resignFirstResponder()
     }
     
-    func delay(delay:Double, closure:()->()) {
+    func delay(delay: Double, closure:()->()) {
         dispatch_after(
             dispatch_time(
                 DISPATCH_TIME_NOW,
@@ -153,13 +152,13 @@ class BusinessesViewController: UIViewController,UITableViewDataSource,UITableVi
     
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if (!isMoreDataLoading) {
+        if !isMoreDataLoading {
             // Calculate the position of one screen length before the bottom of the results
             let scrollViewContentHeight = tableView.contentSize.height
             let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
             
             // When the user has scrolled past the threshold, start requesting
-            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.dragging) {
+            if scrollView.contentOffset.y > scrollOffsetThreshold && tableView.dragging {
                 isMoreDataLoading = true
                 
                 // ... Code to load more results ...
@@ -171,11 +170,11 @@ class BusinessesViewController: UIViewController,UITableViewDataSource,UITableVi
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let cell = sender as! UITableViewCell
-        let indexPath = tableView.indexPathForCell(cell)
+        let cell = sender as? UITableViewCell
+        let indexPath = tableView.indexPathForCell(cell!)
         let business = filteredData![(indexPath?.row)!]
-        let detailBusinessViewController = segue.destinationViewController as! DetailBusinessViewController
-        detailBusinessViewController.business = business
+        let detailBusinessViewController = segue.destinationViewController as? DetailBusinessViewController
+        detailBusinessViewController!.business = business
     }
 
 }
